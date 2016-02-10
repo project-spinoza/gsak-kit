@@ -4,8 +4,8 @@
 This project provides a plugin for graph analysis and visualization through which you can easily embed, visualize, and analyze your data on any website or web page.<br>
 GSAK-KIT is divided into two sections.
 #### The server side 
-  * **input** <br>text data or the built-in graph
-  * **output**<br>processed graph.
+  * **input** <br>Text data or the built-in graph
+  * **output**<br>Processed graph
   * **Description** <br>
  The server side will do all the data processing, graph generation, analysis, filteration, etc.
  When the server is provided with text data, it generates a graph based on specific keywords or relationships that exist   within the data.
