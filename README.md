@@ -10,7 +10,10 @@ GSAK-KIT is divided into two sections.
  The server side will do all the data processing, graph generation, analysis, filteration, etc.
  When the server is provided with text data, it generates a graph based on specific keywords or relationships that exist   within the data.
  When the server is provided with the built-in graph, it will analyze and filter the graph to create another processed graph.  The server specifies formats for the input data. From this, the server generates the graph and provides a way to write your  own implementation code for the graph generator. 
-  * **Technologies**<br> We use the Gephi toolkit for graph processing and Undertow as the java web server. We also use Apache log4j2 for logging 
+  * **Third Party Libraries**<br> 
+For graph processing we'll use the [GephiToolkit](https://gephi.org/toolkit/) <br>
+For java web server we'll use the [Undertow](https://github.com/undertow-io/undertow) <br>
+For logging we'll use [log4j2](https://github.com/logentries/le_java/wiki/Log4j2)
 
 #### The front end side 
   * **input** <br> Processed graph data; 
