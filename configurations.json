@@ -1,0 +1,52 @@
+{
+    "layout": {
+        "yifanHuLayout": {
+            "name": "YIfanHuLayout",
+            "iteration": 100,
+            "distance": 260.1
+        },
+        "forceAtlasLayout": {
+            "name": "ForceAtlasLayout",
+            "speed": 100,
+            "covered": true,
+            "interia":10,
+            "gravity":10,
+            "maxDisplacement":10,
+            "iteration":10
+        },
+        "fruchtermanReingold":{
+            "name":"FruchtermanReingold",
+            "area":10.0,
+            "speed": 100,
+            "gravity":10,
+            "iteration":10
+        },
+        "nodeSizeBy": "nc"
+       
+    },
+    "filter":{
+        "nodeCentrailityThreashhold": 0,
+        "pageRankThreashhold": 0,
+        "neighborRange": 0,
+        "nodeCentrailityBy": "cluster",
+        
+        "edgeColorBy": "mix",
+        "edgeTypeBy": "curve",
+        "backgroundColor": "#000"
+    },
+    "selectedLayout": "YIfanHuLayout",
+    "datasource":{
+          "source" : "file",
+          "elasticsearch":{
+               "host":"localhost",
+               "port":9300,
+               "clusterName":"elasticsearch",
+               "indexName":"twitter",
+               "indexType":"tweet",
+               "searchField":"tweet",
+               "searchValue":"a"
+               
+          },
+          "filePath" : "C:/Users/adnan/AppData/Roaming/Skype/My Skype Received Files/tweets2.txt"          
+    }
+}
