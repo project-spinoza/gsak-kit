@@ -37,7 +37,7 @@ public class App {
 
 		Undertow server = Undertow
 				.builder()
-				.addHttpListener(8182, "localhost")
+				.addHttpListener(8080, "localhost")
 				.setHandler(
 						Handlers.routing().post("/gephi", getGraphHandler()))
 				.build();
