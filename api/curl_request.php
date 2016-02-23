@@ -32,5 +32,5 @@ $params = array(
    "selectedLayout"=>"FruchtermanReingold"
 );
  //print_r($_POST['options']);
-echo httpPost("http://localhost:8182/gephi",$_POST['filters']);
+echo httpPost("http://localhost:".$_POST['servicePort']."/gephi",$_POST['filters']);
 //echo httpGetWithErros("http://localhost:8080/gephi?a=e&b=p");

@@ -10,7 +10,8 @@ var SigmaJs = function (options){
 	self = this,
 	filters,
 	slider,
-	graphOptions;
+	graphOptions,
+	servicePort;
 
 	self.initialize = function(options){	
 
@@ -21,6 +22,7 @@ var SigmaJs = function (options){
 		textFilePath = options.textFilePath;
 		slider =  options.slider;
 		graphOptions = options.graphOptions;
+		servicePort = options.servicePort;
 		
 		self.createGraphDivs();
 		self.drawSlider();
@@ -98,7 +100,7 @@ var SigmaJs = function (options){
 		
 		$.ajax({
 			url: "curl_request.php",
-			data:{filters :  options.filters, tweets : options.tweets},
+			data:{filters :  options.filters, tweets : options.tweets, servicePort : servicePort},
 
 			beforeSend: function(xhr) { 
 				$( "#graphkit" ).empty(); 
