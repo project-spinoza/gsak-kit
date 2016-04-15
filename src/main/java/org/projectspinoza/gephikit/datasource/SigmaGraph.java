@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.util;
+package org.projectspinoza.gephikit.datasource;
 
 import java.awt.Color;
 import java.util.HashSet;
@@ -11,6 +11,7 @@ import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.Node;
 import org.gephi.graph.api.NodeData;
 import org.gephi.preview.types.EdgeColor;
+import org.projectspinoza.gephikit.configuration.Configuration;
 
 import uk.ac.ox.oii.sigmaexporter.model.GraphElement;
 import uk.ac.ox.oii.sigmaexporter.model.GraphNode;
@@ -27,7 +28,7 @@ public class SigmaGraph implements TwitterGraph {
 		sigmaEdges = new HashSet<GraphElement>();
 	}
 
-	public void build(Graph graph, Configurations conf) {
+	public void build(Graph graph, Configuration conf) {
 		createNodes(graph, conf);
 		createEdges(graph, conf);
 	}
@@ -52,10 +53,11 @@ public class SigmaGraph implements TwitterGraph {
 		return "nodes[" + nodeCount() + "], edges[" + edgeCount() + "]";
 	}
 
-	private void createNodes(Graph graph, Configurations conf) {
+	private void createNodes(Graph graph, Configuration conf) {
 		
-	    String nodeSizeBy = conf.getLayout().getNodeSizeBy();
+	    String nodeSizeBy = "last option";
 		Node[] nodeArray = graph.getNodes().toArray();
+		
 		for (int i = 0; i < nodeArray.length; i++) {
 
 			Node n = nodeArray[i];
@@ -65,7 +67,7 @@ public class SigmaGraph implements TwitterGraph {
 			float x = nd.x();
 			float y = nd.y();
 			float size = 1;
-			if (nodeSizeBy.equals("pr")) {
+			if (nodeSizeBy.trim().equals("pr")) {
 				double s = (Double) nodeArray[i].getAttributes().getValue(
 						"pagerank");
 				size = (float) s;
@@ -111,7 +113,7 @@ public class SigmaGraph implements TwitterGraph {
 		}
 	}
 
-	private void createEdges(Graph graph, Configurations conf) {
+	private void createEdges(Graph graph, Configuration conf) {
 
 		EdgeColor colorMixer = new EdgeColor(EdgeColor.Mode.MIXED);
 		Edge[] edgeArray = graph.getEdges().toArray();
@@ -127,7 +129,7 @@ public class SigmaGraph implements TwitterGraph {
 			sigmaEdge.setTarget(targetId);
 			sigmaEdge.setSize(e.getWeight());
 
-			if (conf.getFilter().getEdgeColorBy().equals("mix")) {
+			if (true) {//conf.getFilter().getEdgeColorBy().equals("mix")
 
 				EdgeData ed = e.getEdgeData();
 				boolean mixColors = false;

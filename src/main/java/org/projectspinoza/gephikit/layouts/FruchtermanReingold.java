@@ -1,11 +1,12 @@
-package org.projectspinoza.gsakkit.layouts;
+package org.projectspinoza.gephikit.layouts;
 
-public class FruchtermanReingoldSetting {
+public class FruchtermanReingold {
 	String name;
 	float area;
 	double speed;
 	double gravity;
 	int iteration;
+	
 
 	public String getName() {
 		return name;

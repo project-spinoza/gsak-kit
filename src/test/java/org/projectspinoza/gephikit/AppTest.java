@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit;
+package org.projectspinoza.gephikit;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

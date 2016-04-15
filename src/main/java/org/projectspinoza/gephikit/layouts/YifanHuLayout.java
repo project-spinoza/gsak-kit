@@ -1,10 +1,10 @@
-package org.projectspinoza.gsakkit.layouts;
+package org.projectspinoza.gephikit.layouts;
 
-public class YifanHuLayoutSetting{
+public class YifanHuLayout{
   
 	String name;
 	int  iteration;
-	float distance;
+	int distance;
 
 	public String getName() {
 		return name;
@@ -22,11 +22,11 @@ public class YifanHuLayoutSetting{
 		this.iteration = iteration;
 	}
 	
-	public float getDistance() {
+	public int getDistance() {
 		return distance;
 	}
 
-	public void setDistance(float distance) {
+	public void setDistance(int distance) {
 		this.distance = distance;
 	}
 	

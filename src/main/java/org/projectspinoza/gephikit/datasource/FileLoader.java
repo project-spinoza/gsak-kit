@@ -1,102 +1,53 @@
-package org.projectspinoza.gsakkit.datasources;
 
-import java.net.UnknownHostException;
+package org.projectspinoza.gephikit.datasource;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.gephi.io.importer.api.Container;
 import org.gephi.io.importer.api.EdgeDraft;
 import org.gephi.io.importer.api.EdgeDraft.EdgeType;
 import org.gephi.io.importer.api.NodeDraft;
 import org.gephi.io.importer.impl.ImportContainerImpl;
-import org.projectspinoza.gsakkit.util.Configurations;
 
-public class ElasticSearchLoader implements DataLoader {
-	Configurations config;
-	Client client;
+
+public class FileLoader implements DataLoader {
+
 	ImportContainerImpl container;
 	List<String> tweets;
-	TransportClient transportClient;
 
-	public ElasticSearchLoader(Configurations conf) throws UnknownHostException {
-		// TODO Auto-generated constructor stub
-		this.config = conf;
-		this.initialize();
-		this.startProcess();
-		
-	}
-	public void startProcess() throws UnknownHostException{
-		client = getClient();
-		if (client != null) {
+	public FileLoader(String filePath) throws IOException {
+		initialize();
+		readFile(filePath);
 
-			tweets = elasticsearchSearch(config.getDatasource()
-					.getElasticsearch().getIndexName(), config.getDatasource()
-					.getElasticsearch().getIndexType(), config.getDatasource()
-					.getElasticsearch().getSearchValue());
-			
-
-		}
 	}
 
 	public void initialize() {
 		container = new ImportContainerImpl();
 		tweets = new ArrayList<String>();
-		client = null;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	public Client getClient() throws UnknownHostException {
-		Settings clientSettings;
-		if(!config.getDatasource().getElasticsearch().getClusterName().isEmpty()){
-			
-			clientSettings = ImmutableSettings
-					.settingsBuilder()
-					.put("cluster.name",config.getDatasource().getElasticsearch().getClusterName()).build();
-		}else{
-			clientSettings = ImmutableSettings
-					.settingsBuilder()
-					.put("cluster.name","elasticsearch").build();
-		}
-		client = new TransportClient(clientSettings)
-		 .addTransportAddress(new InetSocketTransportAddress(config.getDatasource().getElasticsearch().getHost(),config.getDatasource().getElasticsearch().getPort()));
-		return client;
-	}
-
-	public List<String> elasticsearchSearch(String indexName, String indexType,
-			String searchValue) throws UnknownHostException {
-		List<String> responseList = new ArrayList<String>();
-
-		SearchResponse response = client.prepareSearch(indexName)
-				.setTypes(indexType)
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-				.setQuery(QueryBuilders.queryString( config.getDatasource().getElasticsearch().getSearchValue()))
-				.setFrom(0).setSize(500000).setExplain(true).execute().actionGet();
-
-		for (SearchHit hit : response.getHits()) {
-			responseList.add(hit.getSource().get(config.getDatasource().getElasticsearch().getSearchField()).toString());
-		}
+	public void readFile(String filePath) throws IOException {
+       System.out.println("file path : " + filePath);
+		BufferedReader br = new BufferedReader(new FileReader(filePath)) ;
+			for (String line; (line = br.readLine()) != null;) {
+				tweets.add(line);
+			}
 		
-		return responseList;
+
 	}
 
 	public Container load() {
+		
 		for (String tweet : tweets) {
 			List<String[]> edges = buildEdges(tweet);
+			
 			addToContainer(edges);
 		}
 		return container;
