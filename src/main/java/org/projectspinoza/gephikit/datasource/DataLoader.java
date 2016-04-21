@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.datasource;
+package org.projectspinoza.gephikit.datasource;
 
 import org.gephi.io.importer.api.Container;
 

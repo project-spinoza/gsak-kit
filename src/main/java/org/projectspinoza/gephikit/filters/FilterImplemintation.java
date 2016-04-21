@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.filters;
+package org.projectspinoza.gephikit.filters;
 
 import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeModel;

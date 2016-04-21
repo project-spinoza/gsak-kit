@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.configuration;
+package org.projectspinoza.gephikit.configuration;
 
 import java.io.File;
 import java.io.IOException;

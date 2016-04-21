@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.datasource;
+package org.projectspinoza.gephikit.datasource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,9 +46,7 @@ public class ElasticSearchDataLoader implements DataLoader {
 				Map<String, Object> documentMap = new HashMap<String, Object>();
 				documentMap.put("text",document.get(attribute.get("name").toString()));
 				documentMap.put("splitBy", attribute.get("splitBy").toString());
-				lines.add(documentMap);
-				
-				
+				lines.add(documentMap);			
 			}
 		}
 	}

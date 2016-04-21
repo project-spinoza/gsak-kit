@@ -1,5 +1,5 @@
 
-package org.projectspinoza.gsakkit.datasource;
+package org.projectspinoza.gephikit.datasource;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

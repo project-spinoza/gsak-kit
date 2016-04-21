@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.datasource;
+package org.projectspinoza.gephikit.datasource;
 
 import java.awt.Color;
 import java.util.HashSet;
@@ -11,7 +11,9 @@ import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.Node;
 import org.gephi.graph.api.NodeData;
 import org.gephi.preview.types.EdgeColor;
-import org.projectspinoza.gsakkit.configuration.Configuration;
+
+
+import org.projectspinoza.gephikit.configuration.Configuration;
 
 import uk.ac.ox.oii.sigmaexporter.model.GraphElement;
 import uk.ac.ox.oii.sigmaexporter.model.GraphNode;
@@ -164,5 +166,7 @@ public class SigmaGraph implements TwitterGraph {
 			sigmaEdges.add(sigmaEdge);
 		}
 	}
+
+
 
 }

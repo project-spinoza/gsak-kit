@@ -1,7 +1,6 @@
-package org.projectspinoza.gsakkit;
+package org.projectspinoza.gephikit;
 
 import java.util.List;
-import java.util.Map;
 
 import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.GraphModel;
@@ -11,11 +10,11 @@ import org.gephi.io.processor.plugin.DefaultProcessor;
 import org.gephi.project.api.ProjectController;
 import org.gephi.project.api.Workspace;
 import org.openide.util.Lookup;
-import org.projectspinoza.gsakkit.configuration.Configuration;
-import org.projectspinoza.gsakkit.datasource.DataLoader;
-import org.projectspinoza.gsakkit.datasource.ElasticSearchDataLoader;
-import org.projectspinoza.gsakkit.datasource.ElasticSearchDocuments;
-import org.projectspinoza.gsakkit.datasource.FileLoader;
+import org.projectspinoza.gephikit.configuration.Configuration;
+import org.projectspinoza.gephikit.datasource.DataLoader;
+import org.projectspinoza.gephikit.datasource.ElasticSearchDataLoader;
+import org.projectspinoza.gephikit.datasource.ElasticSearchDocuments;
+import org.projectspinoza.gephikit.datasource.FileLoader;
 
 public class BasicGraph {
 	ProjectController pc;
@@ -73,9 +72,7 @@ public class BasicGraph {
 			container = dataloader.load();
 			
 		}
-		
 		importController.process(container, new DefaultProcessor(), workspace);
-		
 
 	}
 	public GraphModel getGraphModel() {

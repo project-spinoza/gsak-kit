@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit;
+package org.projectspinoza.gephikit;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpMethod;
@@ -19,12 +19,14 @@ import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.ranking.api.RankingController;
 import org.openide.util.Lookup;
-import org.projectspinoza.gsakkit.configuration.ConfigurationManager;
-import org.projectspinoza.gsakkit.datasource.SigmaGraph;
-import org.projectspinoza.gsakkit.filters.FilterImplemintation;
-import org.projectspinoza.gsakkit.filters.GraphFilter;
-import org.projectspinoza.gsakkit.filters.GraphPreview;
-import org.projectspinoza.gsakkit.layouts.LayoutManager;
+import org.projectspinoza.gephikit.configuration.ConfigurationManager;
+import org.projectspinoza.gephikit.datasource.SigmaGraph;
+import org.projectspinoza.gephikit.filters.FilterImplemintation;
+import org.projectspinoza.gephikit.filters.GraphFilter;
+import org.projectspinoza.gephikit.filters.GraphPreview;
+
+
+import org.projectspinoza.gephikit.layouts.LayoutManager;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -81,17 +83,15 @@ public class DeployServer extends AbstractVerticle {
 	 */
 	@Override
 	public void start() {
-
 		server = vertx.createHttpServer();
 		router = Router.router(vertx);
-		router.route().handler(
-				CorsHandler.create("*").allowedMethod(HttpMethod.GET)
+		router.route().handler(CorsHandler.create("*").allowedMethod(HttpMethod.GET)
 						.allowedMethod(HttpMethod.POST)
 						.allowedMethod(HttpMethod.OPTIONS)
-						.allowedHeader("Content-Type, Authorization"));
+						.allowedHeader("Content-Type, Authorization")
+						);
 		// registering different route handlers
 		registerHandlers();
-
 		server.requestHandler(router::accept).listen(
 				configurationManager.getConfiguration().getPort(),
 				configurationManager.getConfiguration().getHost());
@@ -100,134 +100,120 @@ public class DeployServer extends AbstractVerticle {
 	/**
 	 * routes for different requests
 	 */
-
 	private void registerHandlers() {
 		// gephi route to generate simple gephi graph
-		router.route("/gephi")
-				.blockingHandler(
-						routingContext -> {
+		router.route("/gephi").blockingHandler(routingContext -> {
+			String graphJson = "";
+			HttpServerResponse response = routingContext.response();
+			try {
+				if (routingContext.request().getParam("basicSettings") != null) {
+					HashMap<String, Object> basicCofiguration = mapper.readValue(routingContext	.request().getParam("basicSettings"),new TypeReference<HashMap<String, Object>>() {});
+					applyBasicConfiguration(basicCofiguration,configurationManager);
+				}
+				basicGraph = getBasicgraph();
+				graphJson = getSigmaGraph(basicGraph.getGraphModel().getDirectedGraph());
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				graphJson = "{error:" + ex.getMessage() + "}";
+			}
 
-							String graphJson = "";
-							HttpServerResponse response = routingContext
-									.response();
-
-							try {
-								if (routingContext.request().getParam(
-										"basicSettings") != null) {
-
-									HashMap<String, Object> basicCofiguration = mapper
-											.readValue(
-													routingContext
-															.request()
-															.getParam(
-																	"basicSettings"),
-													new TypeReference<HashMap<String, Object>>() {
-													});
-									applyBasicConfiguration(basicCofiguration,
-											configurationManager);
-								}
-								basicGraph = getBasicgraph();
-								graphJson = getSigmaGraph(basicGraph
-										.getGraphModel().getDirectedGraph());
-							} catch (NoNodeAvailableException e) {
-								log.error("ElasticSearch Connectivity Error ");
-								graphJson = "{error : ElasticSearch Connectivity Error }";
-							} catch (IOException ioException) {
-								log.error("Exception Reading Text File");
-								graphJson = "{error : Exception Reading Text File}";
-
-							} catch (Exception ex) {
-								ex.printStackTrace();
-								graphJson = "{error:" + ex.getMessage() + "}";
-							}
-
-							response.end(graphJson);
-						});
-		// layout route to generate graph with the required layout
-		router.route("/layout")
-				.blockingHandler(
-						routingContext -> {
-							HttpServerResponse response = routingContext
-									.response();
-							String graphJson = "";
-							try {
-								HashMap<String, Object> settings = mapper
-										.readValue(
-												routingContext.request()
-														.getParam("settings"),
-												new TypeReference<HashMap<String, Object>>() {
-												});
-								if (routingContext.request().getParam(
-										"basicSettings") != null) {
-
-									HashMap<String, Object> basicCofiguration = mapper
-											.readValue(
-													routingContext
-															.request()
-															.getParam(
-																	"basicSettings"),
-													new TypeReference<HashMap<String, Object>>() {
-													});
-									applyBasicConfiguration(basicCofiguration,
-											configurationManager);
-								}
-
-								basicGraph = getBasicgraph();
-								applyLayout(settings, basicGraph.graphModel);
-								graphJson = getSigmaGraph(basicGraph.graphModel
-										.getDirectedGraph());
-
-							} catch (NoNodeAvailableException e) {
-								log.error("ElasticSearch Connectivity Error ");
-								graphJson = "{error : ElasticSearch Connectivity Error }";
-							} catch (IOException ioException) {
-								log.error("Exception Reading Text File");
-								graphJson = "{error : Exception Reading Text File}";
-
-							} catch (Exception ex) {
-								ex.printStackTrace();
-								graphJson = "{error:" + ex.getMessage() + "}";
-							}
-
-							response.end(graphJson);
-
-						});
+			response.end(graphJson);
+	 });
+		
+	// layout route to generate graph with the required layout
+		router.route("/layout").blockingHandler(routingContext -> {
+			HttpServerResponse response = routingContext.response();
+			String graphJson = "";
+			try {
+				HashMap<String, Object> settings = mapper.readValue(routingContext.request().getParam("settings"),new TypeReference<HashMap<String, Object>>() {});
+				if (routingContext.request().getParam("basicSettings") != null) {
+					HashMap<String, Object> basicCofiguration = mapper.readValue(routingContext.request().getParam("basicSettings"),new TypeReference<HashMap<String, Object>>() {});
+					applyBasicConfiguration(basicCofiguration,configurationManager);
+				}
+				basicGraph = getBasicgraph();
+				applyLayout(settings, basicGraph.graphModel);
+				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				graphJson = "{error:" + ex.getMessage() + "}";
+			}
+			response.end(graphJson);
+		});
+		
 		// filter route to generate graph with the required filters
-				router.route("/filter")
-						.blockingHandler(
-								routingContext -> {
-									
-									HttpServerResponse response = routingContext
-											.response();
-									String graphJson = "";
-									
-									try {
-										HashMap<String, Object> settings = mapper.readValue(routingContext.request().getParam("filters"),new TypeReference<HashMap<String, Object>>() {});
+		router.route("/filter").blockingHandler(routingContext -> {
+			HttpServerResponse response = routingContext.response();
+			String graphJson = "";
+			try {
+				HashMap<String, Object> settings = mapper.readValue(routingContext.request().getParam("filters"),new TypeReference<HashMap<String, Object>>() {});
+				if (routingContext.request().getParam("basicSettings") != null) {
+					HashMap<String, Object> basicCofiguration = mapper.readValue(routingContext.request().getParam("basicSettings"),new TypeReference<HashMap<String, Object>>() {});
+					applyBasicConfiguration(basicCofiguration,configurationManager);
+				}
+				basicGraph = getBasicgraph();
+				applyFilters(settings, basicGraph.graphModel.getGraph());
+				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				graphJson = "{error:" + ex.getMessage() + "}";
+			}
+			response.end(graphJson);
+
+		});
+		
+	// gsakkit route to generate graph with the required filters and layouts
+		router.route("/gsakkit").blockingHandler(routingContext -> {
+			HttpServerResponse response = routingContext.response();
+			String graphJson = "";
+			try {
+				if (routingContext.request().getParam("basicSettings") != null) {
+					HashMap<String, Object> basicCofiguration = mapper.readValue(routingContext.request().getParam("basicSettings"),new TypeReference<HashMap<String, Object>>() {});
+					applyBasicConfiguration(basicCofiguration,configurationManager);
+				}
+				basicGraph = getBasicgraph();
+				if (routingContext.request().getParam("filters") != null) {
+					HashMap<String, Object> filters = mapper.readValue(routingContext.request().getParam("filters"),new TypeReference<HashMap<String, Object>>() {});
+					applyFilters(filters, basicGraph.graphModel.getGraph());
+				}
+				if (routingContext.request().getParam("layouts") != null) {
+					HashMap<String, Object> layouts = mapper.readValue(routingContext.request().getParam("layouts"),new TypeReference<HashMap<String, Object>>() {});
+					applyLayout(layouts, basicGraph.graphModel);
+				}
 										
-										if (routingContext.request().getParam("basicSettings") != null) {
-											HashMap<String, Object> basicCofiguration = mapper.readValue(routingContext.request().getParam("basicSettings"),new TypeReference<HashMap<String, Object>>() {});
-											applyBasicConfiguration(basicCofiguration,configurationManager);
-										}
-										basicGraph = getBasicgraph();
-										applyFilters(settings, basicGraph.graphModel.getGraph());
-										graphJson = getSigmaGraph(basicGraph.graphModel
-												.getDirectedGraph());
+				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				graphJson = "{error:" + ex.getMessage() + "}";
+			}
 
-									} catch (NoNodeAvailableException e) {
-										log.error("ElasticSearch Connectivity Error ");
-										graphJson = "{error : ElasticSearch Connectivity Error }";
-									} catch (IOException ioException) {
-										log.error("Exception Reading Text File");
-										graphJson = "{error : Exception Reading Text File}";
+			response.end(graphJson);
 
-									} catch (Exception ex) {
-										ex.printStackTrace();
-										graphJson = "{error:" + ex.getMessage() + "}";
-									}
-
-									response.end(graphJson);
-
-								});
+		});
 	}
 
 	/**
@@ -237,24 +223,16 @@ public class DeployServer extends AbstractVerticle {
 	 * 
 	 */
 
-	public void applyBasicConfiguration(Map<String, Object> basicSettings,
-			ConfigurationManager configurationManager) {
-
+	public void applyBasicConfiguration(Map<String, Object> basicSettings,ConfigurationManager configurationManager) {
 		if (basicSettings.get("selectedDataSource") != null) {
-			configurationManager.getConfiguration().setSelectedDataSource(
-					basicSettings.get("selectedDataSource").toString());
-
+			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
 		}
-		if (basicSettings.get("selectedDataSource") != null
-				&& basicSettings.get("selectedDataSource").equals("file")) {
-			configurationManager.getConfiguration().setSelectedDataSource(
-					basicSettings.get("selectedDataSource").toString());
-			configurationManager.getConfiguration().getDatasource()
-					.setFilePath(basicSettings.get("filePath").toString());
+		if (basicSettings.get("selectedDataSource") != null&& basicSettings.get("selectedDataSource").equals("file")) {
+			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
+			configurationManager.getConfiguration().getDatasource().setFilePath(basicSettings.get("filePath").toString());
 		}
 		if (basicSettings.get("selectedLayout") != null) {
-			configurationManager.getConfiguration().setSelectedLayout(
-					basicSettings.get("selectedLayout").toString());
+			configurationManager.getConfiguration().setSelectedLayout(basicSettings.get("selectedLayout").toString());
 
 		}
 	}
@@ -266,22 +244,22 @@ public class DeployServer extends AbstractVerticle {
 	 * @param graphModel
 	 * @throws Exception
 	 */
-	public void applyLayout(Map<String, Object> settings, GraphModel graphModel)
-			throws Exception {
-
-		configurationManager.getConfiguration().setSelectedLayout(
-				settings.get("name").toString().trim());
-
+	public void applyLayout(Map<String, Object> settings, GraphModel graphModel) throws Exception {
+		configurationManager.getConfiguration().setSelectedLayout(settings.get("name").toString().trim());
 		if (settings.get("name").toString().trim().equals("YifanHuLayout")) {
-			configurationManager.getConfiguration().getLayout()
-					.getYiFanHuLayout()
-					.setDistance((int) settings.get("distance"));
-			configurationManager.getConfiguration().getLayout()
-					.getYiFanHuLayout()
-					.setIteration((int) settings.get("iteration"));
+			configurationManager.getConfiguration().getLayout().getYiFanHuLayout().setDistance((int) settings.get("distance"));
+			configurationManager.getConfiguration().getLayout().getYiFanHuLayout().setIteration((int) settings.get("iteration"));
+		}else if(settings.get("name").toString().trim().equals("FruchtermanReingold")){
+			float area = Float.parseFloat(settings.get("area").toString().trim());
+			double speed = Double.parseDouble(settings.get("speed").toString().trim());
+			double gravity = Double.parseDouble(settings.get("gravity").toString().trim());
+			int iteration = Integer.parseInt(settings.get("iteration").toString().trim());
+			configurationManager.getConfiguration().getLayout().getFruchtermanReingold().setArea(area);
+			configurationManager.getConfiguration().getLayout().getFruchtermanReingold().setSpeed(speed);
+			configurationManager.getConfiguration().getLayout().getFruchtermanReingold().setGravity(gravity);
+			configurationManager.getConfiguration().getLayout().getFruchtermanReingold().setIteration(iteration);
 		}
-
-		new LayoutManager(configurationManager.getConfiguration()
+    	new LayoutManager(configurationManager.getConfiguration()
 				.getSelectedLayout(), graphModel,
 				configurationManager.getConfiguration());
 

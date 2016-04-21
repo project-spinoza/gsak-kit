@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.datasource;
+package org.projectspinoza.gephikit.datasource;
 
 import uk.ac.ox.oii.sigmaexporter.model.GraphElement;
 

@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.filters;
+package org.projectspinoza.gephikit.filters;
 
 import java.awt.Color;
 import java.awt.Font;

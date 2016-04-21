@@ -1,4 +1,4 @@
-package org.projectspinoza.gsakkit.datasource;
+package org.projectspinoza.gephikit.datasource;
 
 public class DataSource {
 	String filePath;

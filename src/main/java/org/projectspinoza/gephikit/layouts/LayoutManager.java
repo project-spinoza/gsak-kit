@@ -1,10 +1,11 @@
-package org.projectspinoza.gsakkit.layouts;
+package org.projectspinoza.gephikit.layouts;
 
 import org.gephi.graph.api.GraphModel;
 import org.gephi.layout.plugin.force.StepDisplacement;
 import org.gephi.layout.plugin.force.yifanHu.YifanHuLayout;
 import org.gephi.layout.plugin.fruchterman.FruchtermanReingold;
-import org.projectspinoza.gsakkit.configuration.Configuration;
+import org.projectspinoza.gephikit.configuration.Configuration;
+
 
 public class LayoutManager {
 

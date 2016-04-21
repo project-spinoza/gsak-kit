@@ -1,9 +1,11 @@
-package org.projectspinoza.gsakkit.datasource;
+package org.projectspinoza.gephikit.datasource;
 
 import java.util.HashSet;
 
 import org.gephi.graph.api.Graph;
-import org.projectspinoza.gsakkit.configuration.Configuration;
+
+
+import org.projectspinoza.gephikit.configuration.Configuration;
 
 import uk.ac.ox.oii.sigmaexporter.model.GraphElement;
 

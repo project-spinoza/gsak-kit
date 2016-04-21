@@ -1,7 +1,7 @@
-package org.projectspinoza.gsakkit.configuration;
+package org.projectspinoza.gephikit.configuration;
 
-import org.projectspinoza.gsakkit.datasource.DataSource;
-import org.projectspinoza.gsakkit.layouts.Layout;
+import org.projectspinoza.gephikit.datasource.DataSource;
+import org.projectspinoza.gephikit.layouts.Layout;
 
 
 
@@ -13,8 +13,6 @@ public class Configuration {
 	DataSource datasource;
 	String selectedLayout;
 	
-
-
 	public int getPort() {
 		return port;
 	}
