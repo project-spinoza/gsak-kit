@@ -1,7 +1,7 @@
-package org.projectspinoza.gephikit.configuration;
+package org.projectspinoza.gsakkit.configuration;
 
-import org.projectspinoza.gephikit.datasource.DataSource;
-import org.projectspinoza.gephikit.layouts.Layout;
+import org.projectspinoza.gsakkit.datasource.DataSource;
+import org.projectspinoza.gsakkit.layouts.Layout;
 
 
 

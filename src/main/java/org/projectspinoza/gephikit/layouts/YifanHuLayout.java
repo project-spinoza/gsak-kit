@@ -1,4 +1,4 @@
-package org.projectspinoza.gephikit.layouts;
+package org.projectspinoza.gsakkit.layouts;
 
 public class YifanHuLayout{
   

@@ -1,4 +1,4 @@
-package org.projectspinoza.gephikit.datasource;
+package org.projectspinoza.gsakkit.datasource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.gephi.io.importer.impl.ImportContainerImpl;
-import org.projectspinoza.gephikit.Main;
+import org.projectspinoza.gsakkit.Main;
 
 public class ElasticSearchDocuments {
         String host;
