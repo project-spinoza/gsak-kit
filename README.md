@@ -4,7 +4,8 @@
 This project provides a plugin for graph analysis and visualization through which you can easily embed, visualize, and analyze your data on any website or web page.<br>
 
 # Building the Project:
-  #### The server side
+
+  #The server side
      * Apache Maven 3.x
      * git (Optional)
      * Java 8
