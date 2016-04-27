@@ -2,6 +2,16 @@
 # GSAK-KIT 
 
 This project provides a plugin for graph analysis and visualization through which you can easily embed, visualize, and analyze your data on any website or web page.<br>
+
+#Building the Project:
+  ## Prerequisits:
+     * Apache Maven 3.x
+     * git (Optional)
+     * Java 8
+     
+  * Install 
+  * Download or clone Gsak_kit in any convenient directory.<br>
+
 GSAK-KIT is divided into two sections.
 #### The server side 
   * **input** <br>Text data or the built-in graph<br>
