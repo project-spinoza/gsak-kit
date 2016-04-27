@@ -14,8 +14,8 @@ This project provides a plugin for graph analysis and visualization through whic
   * Download or clone Gsak-Kit from github into any convenient Directory (Path should not contain special Characters like spaces etc. <br>
   * Go to Project root directory (Directory containing src, pom.xml) <br>
   * Execut the following commands<br>
-  ** Execut the following commands<br>
-  
+      <code>mvn compile</code><br>
+      <code>mvn clean package</code><br>
 
 GSAK-KIT is divided into two sections.
 #### The server side 
