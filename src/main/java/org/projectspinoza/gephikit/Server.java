@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
+import org.elasticsearch.transport.ConnectTransportException;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.Graph;
@@ -34,7 +35,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class DeployServer extends AbstractVerticle {
+public class Server extends AbstractVerticle {
 	String response;
 	ConfigurationManager configurationManager;
 	ObjectMapper mapper;
@@ -48,11 +49,9 @@ public class DeployServer extends AbstractVerticle {
 	HttpServer server;
 	Router router;
 	GraphPreview graphPreview;
-	private static org.apache.log4j.Logger log = Logger
-			.getLogger(DeployServer.class);
+	private static Logger log = Logger.getLogger(Server.class);
 
-	public DeployServer(String configurationFilePath)
-			throws JsonParseException, JsonMappingException, IOException {
+	public Server(String configurationFilePath) {
 		initialize(configurationFilePath);
 		
 
@@ -60,14 +59,14 @@ public class DeployServer extends AbstractVerticle {
 
 	/**
 	 * Initializing objects
+	 * @throws org.codehaus.jackson.map.JsonMappingException 
+	 * @throws org.codehaus.jackson.JsonParseException 
 	 * 
 	 * @throws IOException
 	 * @throws org.codehaus.jackson.map.JsonMappingException
 	 * @throws org.codehaus.jackson.JsonParseException
 	 */
-	public void initialize(String configurationFilePath)
-			throws org.codehaus.jackson.JsonParseException,
-			org.codehaus.jackson.map.JsonMappingException, IOException {
+	public void initialize(String configurationFilePath){
 		mapper = new ObjectMapper();
 		configurationManager = new ConfigurationManager();
 		configurationManager.setInitialConfiguration(configurationFilePath);
@@ -86,8 +85,6 @@ public class DeployServer extends AbstractVerticle {
 		server = vertx.createHttpServer();
 		router = Router.router(vertx);
 		router.route().handler(CorsHandler.create("*").allowedMethod(HttpMethod.GET)
-						.allowedMethod(HttpMethod.POST)
-						.allowedMethod(HttpMethod.OPTIONS)
 						.allowedHeader("Content-Type, Authorization")
 						);
 		// registering different route handlers
@@ -101,6 +98,12 @@ public class DeployServer extends AbstractVerticle {
 	 * routes for different requests
 	 */
 	private void registerHandlers() {
+		// welcome route with welcome message
+		router.route("/").blockingHandler(routingContext -> {
+			HttpServerResponse response = routingContext.response();
+			response.end("<h1>Welcome to gsak kit</h1>");
+	 });
+		
 		// gephi route to generate simple gephi graph
 		router.route("/gephi").blockingHandler(routingContext -> {
 			String graphJson = "";
@@ -112,13 +115,7 @@ public class DeployServer extends AbstractVerticle {
 				}
 				basicGraph = getBasicgraph();
 				graphJson = getSigmaGraph(basicGraph.getGraphModel().getDirectedGraph());
-			} catch (NoNodeAvailableException e) {
-				log.error("ElasticSearch Connectivity Error ");
-				graphJson = "{error : ElasticSearch Connectivity Error }";
-			} catch (IOException ioException) {
-				log.error("Exception Reading Text File");
-				graphJson = "{error : Exception Reading Text File}";
-			} catch (Exception ex) {
+			}catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
 			}
@@ -139,13 +136,7 @@ public class DeployServer extends AbstractVerticle {
 				basicGraph = getBasicgraph();
 				applyLayout(settings, basicGraph.graphModel);
 				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
-			} catch (NoNodeAvailableException e) {
-				log.error("ElasticSearch Connectivity Error ");
-				graphJson = "{error : ElasticSearch Connectivity Error }";
-			} catch (IOException ioException) {
-				log.error("Exception Reading Text File");
-				graphJson = "{error : Exception Reading Text File}";
-			} catch (Exception ex) {
+			}catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
 			}
@@ -165,14 +156,7 @@ public class DeployServer extends AbstractVerticle {
 				basicGraph = getBasicgraph();
 				applyFilters(settings, basicGraph.graphModel.getGraph());
 				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
-			} catch (NoNodeAvailableException e) {
-				log.error("ElasticSearch Connectivity Error ");
-				graphJson = "{error : ElasticSearch Connectivity Error }";
-			} catch (IOException ioException) {
-				log.error("Exception Reading Text File");
-				graphJson = "{error : Exception Reading Text File}";
-
-			} catch (Exception ex) {
+			}catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
 			}
@@ -200,12 +184,6 @@ public class DeployServer extends AbstractVerticle {
 				}
 										
 				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
-			} catch (NoNodeAvailableException e) {
-				log.error("ElasticSearch Connectivity Error ");
-				graphJson = "{error : ElasticSearch Connectivity Error }";
-			} catch (IOException ioException) {
-				log.error("Exception Reading Text File");
-				graphJson = "{error : Exception Reading Text File}";
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
@@ -230,6 +208,10 @@ public class DeployServer extends AbstractVerticle {
 		if (basicSettings.get("selectedDataSource") != null&& basicSettings.get("selectedDataSource").equals("file")) {
 			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
 			configurationManager.getConfiguration().getDatasource().setFilePath(basicSettings.get("filePath").toString());
+		}
+		if (basicSettings.get("selectedDataSource") != null&& basicSettings.get("selectedDataSource").equals("elasticsearch")) {
+			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setSearchValue(basicSettings.get("value").toString().trim());
 		}
 		if (basicSettings.get("selectedLayout") != null) {
 			configurationManager.getConfiguration().setSelectedLayout(basicSettings.get("selectedLayout").toString());
