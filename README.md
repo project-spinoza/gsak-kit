@@ -16,6 +16,8 @@ This project provides a plugin for graph analysis and visualization through whic
   * Execut the following commands<br>
       <code>mvn compile</code><br>
       <code>mvn clean package</code><br>
+  * If compilation completed without any errors, a <code>target</code> will be created inside project root directory. <br>
+  * The <code>target</code> directory should contain a jar file with possible name <code>gsak-kit-with-dependencies.jar</code>.<br>
 
 GSAK-KIT is divided into two sections.
 #### The server side 
