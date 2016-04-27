@@ -6,6 +6,18 @@ This project provides a plugin for graph analysis and visualization through whic
 # Building the Project:
 
 #### The server side 
+  * Apache Maven 3.x <br>
+  * Java 8 <br>
+  * Git (Optional)<br>
+
+#### Steps 
+  * Download or clone Gsak-Kit from github into any convenient Directory (Path should not contains special Character like spaces etc. <br>
+  * Java 8 <br>
+  * Git (Optional)<br>
+
+
+GSAK-KIT is divided into two sections.
+#### The server side 
   * **input** <br>Text data or the built-in graph<br>
   * **output**<br>Processed graph<br>
   * **Description** <br>
