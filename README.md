@@ -27,8 +27,8 @@ This project provides a plugin for graph analysis and visualization through whic
 # Routes:
   Routes define different processing that can be applied to the visulized graph. Standard processes include Layouts, Filtering or combination of both.
 #### Layouts
-  * <bold>Route<bold>: <code>/layout</code> <br>
-  * <bold>Layout ID:<bold> <code>settings="name"=xyz</code> <br>
+  * __Route_**: <code>/layout</code> <br>
+  * __Layout ID:__** <code>settings="name"=xyz</code> <br>
   
 GSAK-KIT is divided into two sections.
 #### The server side 
