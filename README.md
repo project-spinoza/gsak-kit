@@ -5,16 +5,17 @@ This project provides a plugin for graph analysis and visualization through whic
 
 # Building the Project:
 
-#### The server side 
+#### Prerequisits: 
   * Apache Maven 3.x <br>
   * Java 8 <br>
   * Git (Optional)<br>
 
 #### Steps 
-  * Download or clone Gsak-Kit from github into any convenient Directory (Path should not contains special Character like spaces etc. <br>
-  * Java 8 <br>
-  * Git (Optional)<br>
-
+  * Download or clone Gsak-Kit from github into any convenient Directory (Path should not contain special Characters like spaces etc. <br>
+  * Go to Project root directory (Directory containing src, pom.xml) <br>
+  * Execut the following commands<br>
+  ** Execut the following commands<br>
+  
 
 GSAK-KIT is divided into two sections.
 #### The server side 
