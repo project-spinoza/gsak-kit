@@ -24,9 +24,8 @@ This project provides a plugin for graph analysis and visualization through whic
   * The <code>target</code> directory should contain a jar file with possible name <code>gsak-kit-with-dependencies.jar</code>.<br>
   * To deploy gsak-kit server, run the following command inside <code>target</code> directory.<br>
       <code>java -jar gephikit-0.0.1-SNAPSHOT-jar-with-dependencies.jar ../configuration.json</code><br>
-  * Open <a href="localhost:8182/gephi">localhost:8182/gephi</a> in browser.<br>
+  * Open <a href="localhost:8182/gephi">localhost:8182/</a> in browser and welcome message will be display.<br>
   * A sigma graph will be generated from the mentioned file data in <code>configuration.json</code> in the browser response.<br>
-  * 
   
 # Routes:
   Routes define different processing that can be applied to the visulized graph. Standard processes include Layouts, Filtering or combination of both.
