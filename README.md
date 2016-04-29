@@ -13,6 +13,10 @@ This project provides a plugin for graph analysis and visualization through whic
 #### Steps 
   * Download or clone Gsak-Kit from github into any convenient Directory (Path should not contain special Characters like spaces etc. <br>
   * Go to Project root directory (Directory containing src, pom.xml) <br>
+  * To add dependencies run the following commands from the root directory of twitter-grapher
+     `mvn install:install-file -Dfile=src/lib/gephi-toolkit.jar -DgroupId=gephi-toolkit -DartifactId=gephi-toolkit -Dversion=1.0 -Dpackaging=jar`
+     `mvn install:install-file -Dfile=src/lib/gephi-cw.jar -DgroupId=gephi-cw -DartifactId=gephi-cw -Dversion=0.0.1 -Dpackaging=jar`
+     `mvn install:install-file -Dfile=src/lib/uk-ac-ox-oii-sigmaexporter.jar -DgroupId=uk-ac-ox-oii-sigmaexporter -DartifactId=uk-ac-ox-oii-sigmaexporter -Dversion=1.0 -Dpackaging=jar`
   * Execut the following commands<br>
       <code>mvn compile</code><br>
       <code>mvn clean package</code><br>
