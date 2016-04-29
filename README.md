@@ -29,6 +29,11 @@ This project provides a plugin for graph analysis and visualization through whic
   
 # Routes:
   Routes define different processing that can be applied to the visulized graph. Standard processes include Layouts, Filtering or combination of both.
+#### Basic Graph
+  * *__Route__*: <code>/gephi</code> <br>
+  * *__Parameter(optional):__* <code>basicSettings={"selectedDataSource":"elasticsearch","filePath":"E:/tweets.txt"}</code> <br>
+  * *__e.g.__*: <code>localhost:8182/layout?</code> <br>
+  * __Possible Layouts__: <code>a,b,c,d</code>
 #### Layouts
   * *__Route__*: <code>/layout</code> <br>
   * *__Layout ID:__* <code>settings="name"=xyz</code> <br>
