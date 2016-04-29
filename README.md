@@ -23,7 +23,7 @@ This project provides a plugin for graph analysis and visualization through whic
   * If compilation completed without any errors, a <code>target</code> will be created inside project root directory. <br>
   * The <code>target</code> directory should contain a jar file with possible name <code>gsak-kit-with-dependencies.jar</code>.<br>
   * To deploy gsak-kit server, run the following command inside <code>target</code> directory.<br>
-      <code>java -jar gsak-kit-with-dependencies.jar -config configuration.json</code><br>
+      <code>java -jar gephikit-0.0.1-SNAPSHOT-jar-with-dependencies.jar ../configuration.json</code><br>
   * Open <a href="localhost:8182/gephi">localhost:8182/gephi</a> in browser.<br>
   * A sigma graph will be generated from the mentioned file data in <code>configuration.json</code> in the browser response.<br>
   * 
