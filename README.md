@@ -31,7 +31,7 @@ This project provides a plugin for graph analysis and visualization through whic
   Routes define different processing that can be applied to the visulized graph. Standard processes include Layouts, Filtering or combination of both.
 #### Basic Graph
   * *__Route__*: <code>/gephi</code> <br>
-  * *__Parameter(optional):__* <code>basicSettings={"selectedDataSource":"elasticsearch","filePath":"E:/tweets.txt"}</code> <br>
+  * *__Parameter(optional):__* <code>basicSettings={"selectedDataSource":"elasticsearch","searchValue":"iphone","host":"localhost","port":"8182","clusterName":"elasticsearch","index":"indexName","type":"indexType","documentsLimit":"1000"}</code> <br>
   * *__e.g.__*: <code>localhost:8182/layout?</code> <br>
   * __Possible Layouts__: <code>a,b,c,d</code>
 #### Layouts
