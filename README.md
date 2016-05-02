@@ -35,7 +35,7 @@ This project provides a plugin for graph analysis and visualization through whic
   OR In case of file
 <code>basicSettings={"selectedDataSource":"file","filePath":"path_to_the_tweets_file"}</code> <br>
   * *__e.g.__*: <code>localhost:8182/gephi?basicSettings={"selectedDataSource":"elasticsearch","searchValue":"iphone","host":"localhost","port":"8182","clusterName":"elasticsearch","index":"indexName","type":"indexType","documentsLimit":"1000"} </code> <br>
-  * __Possible Layouts__: <code>a,b,c,d</code>
+  * __Possible Layouts__: <code>a,b,c,d</code><br>
 #### Layouts
   * *__Route__*: <code>/layout</code> <br>
   * *__Layout ID:__* <code>settings="name"=xyz</code> <br>
