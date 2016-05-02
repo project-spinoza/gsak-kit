@@ -27,14 +27,14 @@
                "clusterName":"elasticsearch",
                "index":"xsbir_v2",
                "type":"xsbir_v2_type",
-               "searchFields":["keywords"],
-               "searchValue":"RFA",
+               "searchFields":["program"],
+               "searchValue":"SBIR",
                "returnFields":["keywords", "mainCategoryTitle", "titleSort"],
                "documentsLimit":100
           },
           "elasticsearchDataLoad":{
                  "fields":[
-                    {"name":"titleSort" , "splitBy":" "}
+                    {"name":"keywords" , "splitBy":","}
                  ]
           }
     }

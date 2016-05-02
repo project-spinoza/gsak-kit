@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.elasticsearch.client.transport.NoNodeAvailableException;
-import org.elasticsearch.transport.ConnectTransportException;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.Graph;
@@ -29,10 +27,10 @@ import org.projectspinoza.gephikit.filters.GraphPreview;
 
 import org.projectspinoza.gephikit.layouts.LayoutManager;
 
-import com.fasterxml.jackson.core.JsonParseException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Server extends AbstractVerticle {
@@ -211,7 +209,13 @@ public class Server extends AbstractVerticle {
 		}
 		if (basicSettings.get("selectedDataSource") != null&& basicSettings.get("selectedDataSource").equals("elasticsearch")) {
 			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setSearchValue(basicSettings.get("value").toString().trim());
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setSearchValue(basicSettings.get("searchValue").toString().trim());
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setHost(basicSettings.get("host").toString().trim());
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setPort(Integer.parseInt(basicSettings.get("port").toString().trim()));
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setClusterName(basicSettings.get("clusterName").toString().trim());
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setIndex(basicSettings.get("index").toString().trim());
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setType(basicSettings.get("type").toString().trim());
+			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setDocumentsLimit(Integer.parseInt(basicSettings.get("documentsLimit").toString().trim()));
 		}
 		if (basicSettings.get("selectedLayout") != null) {
 			configurationManager.getConfiguration().setSelectedLayout(basicSettings.get("selectedLayout").toString());
