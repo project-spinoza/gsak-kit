@@ -11,36 +11,36 @@ This project provides a plugin for graph analysis and visualization through whic
   * Git (Optional)<br>
 
 #### Steps 
-  * Download or clone Gsak-Kit from github into any convenient Directory (Path should not contain special Characters like spaces etc. <br>
+  * Download or clone Gsak-Kit from github into any convenient Directory (Path should not contain special Characters like spaces etc.). <br>
   * Go to Project root directory (Directory containing src, pom.xml) <br>
-  * To add dependencies run the following commands from the root directory of twitter-grapher</br>
+  * To add dependencies run the following commands in project root directory using command line.</br>
      `mvn install:install-file -Dfile=src/lib/gephi-toolkit.jar -DgroupId=gephi-toolkit -DartifactId=gephi-toolkit -Dversion=1.0 -Dpackaging=jar`</br></br>
-     `mvn install:install-file -Dfile=src/lib/gephi-cw.jar -DgroupId=gephi-cw -DartifactId=gephi-cw -Dversion=0.0.1 -Dpackaging=jar`</br></br>
      `mvn install:install-file -Dfile=src/lib/uk-ac-ox-oii-sigmaexporter.jar -DgroupId=uk-ac-ox-oii-sigmaexporter -DartifactId=uk-ac-ox-oii-sigmaexporter -Dversion=1.0 -Dpackaging=jar`</br></br>
-  * Execut the following commands<br>
+  * To build the Project, execut the following commands:<br>
       <code>mvn compile</code><br>
       <code>mvn clean package</code><br>
-  * If compilation completed without any errors, a <code>target</code> will be created inside project root directory. <br>
+  * If compilation completed without any error, a <code>target</code> directory will be created inside project root directory. <br>
   * The <code>target</code> directory should contain a jar file with possible name <code>gsak-kit-with-dependencies.jar</code>.<br>
-  * To deploy gsak-kit server, run the following command inside <code>target</code> directory.<br>
+  * To deploy gsak-kit server, execute the following command inside <code>target</code> directory.<br>
       <code>java -jar gephikit-0.0.1-SNAPSHOT-jar-with-dependencies.jar ../configuration.json</code><br>
-  * Open <a href="localhost:8182/gephi">localhost:8182/</a> in browser and welcome message will be display.<br>
-  * A sigma graph will be generated from the mentioned file data in <code>configuration.json</code> in the browser response.<br>
+  * Open <a href="localhost:8182/">localhost:8182/</a> in any browser; A welcome message will be display.<br>
+  * Click `show Graph` on Welcome page, a sigma graph will be generated from the mentioned file data in <code>configuration.json</code> in the browser response.<br>
   
 # Routes:
-  Routes define different processing that can be applied to the visulized graph. Standard processes include Layouts, Filtering or combination of both.
+  Routes define different graph operations that can be applied to the visulized graph. Standard operations mainly include  graph Layouts, Filtration or combination of both.
 #### Basic Graph
   * *__Route__*: <code>/gephi</code> <br>
-  * *__Parameter(optional):__* <code>basicSettings={"selectedDataSource":"elasticsearch","searchValue":"iphone","host":"localhost","port":"8182","clusterName":"elasticsearch","index":"indexName","type":"indexType","documentsLimit":"1000"}</code> <br>
-  OR In case of file
-<code>basicSettings={"selectedDataSource":"file","filePath":"path_to_the_tweets_file"}</code> <br>
-  * *__e.g.__*: <code>localhost:8182/layout?</code> <br>
-  * __Possible Layouts__: <code>a,b,c,d</code>
+  * *__Parameter(optional and Data Source Specific):__*
+  * *__Elasticsearch Params Options:__* <code>basicSettings={"selectedDataSource":"elasticsearch","searchValue":"KEYWORDS'","host":"localhost","port":"9300","clusterName":"elasticsearch","index":"indexName","type":"indexTypeName","documentsLimit":"1000"}</code> <br>
+
+* *__Text File Params Options:__* <code>basicSettings={"selectedDataSource":"file","filePath":"path_to_the_tweets_file"}</code> <br>
+  * *__e.g. File as Data source:__*: <code>localhost:8182/gephi?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt", "searchValue":"justin bieber"} </code> <br>
 #### Layouts
   * *__Route__*: <code>/layout</code> <br>
-  * *__Layout ID:__* <code>settings="name"=xyz</code> <br>
-  * *__e.g.__*: <code>localhost:8182/layout?</code> <br>
-  * __Possible Layouts__: <code>a,b,c,d</code>
+  * *__Layout name:__* <code>"name"=YifanHuLayout</code> <br>
+  * *__e.g. YifanHuLayout__*: <code>localhost:8182/layout?layoutSettings={"name":"YifanHuLayout","distance":100, "iterations":100}</code> <br>
+  * *__e.g. FruchtermanReingold__*: <code>localhost:8182/layout?layoutSettings={"name":"FruchtermanReingold","size":10, "iterations":100, "gravity":0.1}</code> <br>
+  * __Possible Layouts__: <code>YifanHuLayout, FruchtermanReingold</code>
 
 
 GSAK-KIT is divided into two sections.
@@ -66,10 +66,7 @@ For logging we'll use [log4j2](https://github.com/logentries/le_java/wiki/Log4j2
 ## License
 The code is licensed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 <br>
-## Road Map
-https://github.com/project-spinoza/gsak-kit/wiki
 
 ## Questions or Suggestions
 **Email** `project.spinoza@gmail.com`<br>
 **Issues** https://github.com/project-spinoza/gsak-kit/issues
-  
