@@ -126,7 +126,7 @@ public class Server extends AbstractVerticle {
 			HttpServerResponse response = routingContext.response();
 			String graphJson = "";
 			try {
-				HashMap<String, Object> settings = mapper.readValue(routingContext.request().getParam("settings"),new TypeReference<HashMap<String, Object>>() {});
+				HashMap<String, Object> settings = mapper.readValue(routingContext.request().getParam("layoutSettings"),new TypeReference<HashMap<String, Object>>() {});
 				if (routingContext.request().getParam("basicSettings") != null) {
 					HashMap<String, Object> basicCofiguration = mapper.readValue(routingContext.request().getParam("basicSettings"),new TypeReference<HashMap<String, Object>>() {});
 					applyBasicConfiguration(basicCofiguration,configurationManager);
@@ -146,7 +146,7 @@ public class Server extends AbstractVerticle {
 			HttpServerResponse response = routingContext.response();
 			String graphJson = "";
 			try {
-				HashMap<String, Object> settings = mapper.readValue(routingContext.request().getParam("filters"),new TypeReference<HashMap<String, Object>>() {});
+				HashMap<String, Object> settings = mapper.readValue(routingContext.request().getParam("filterSettings"),new TypeReference<HashMap<String, Object>>() {});
 				if (routingContext.request().getParam("basicSettings") != null) {
 					HashMap<String, Object> basicCofiguration = mapper.readValue(routingContext.request().getParam("basicSettings"),new TypeReference<HashMap<String, Object>>() {});
 					applyBasicConfiguration(basicCofiguration,configurationManager);
@@ -173,11 +173,11 @@ public class Server extends AbstractVerticle {
 				}
 				basicGraph = getBasicgraph();
 				if (routingContext.request().getParam("filters") != null) {
-					HashMap<String, Object> filters = mapper.readValue(routingContext.request().getParam("filters"),new TypeReference<HashMap<String, Object>>() {});
+					HashMap<String, Object> filters = mapper.readValue(routingContext.request().getParam("filterSettings"),new TypeReference<HashMap<String, Object>>() {});
 					applyFilters(filters, basicGraph.graphModel.getGraph());
 				}
 				if (routingContext.request().getParam("layouts") != null) {
-					HashMap<String, Object> layouts = mapper.readValue(routingContext.request().getParam("layouts"),new TypeReference<HashMap<String, Object>>() {});
+					HashMap<String, Object> layouts = mapper.readValue(routingContext.request().getParam("layoutSettings"),new TypeReference<HashMap<String, Object>>() {});
 					applyLayout(layouts, basicGraph.graphModel);
 				}
 										
