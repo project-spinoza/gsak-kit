@@ -1,0 +1,112 @@
+<html>
+<head>
+
+  <style>
+    #graph-container {
+     
+      width:800px;
+      height:800px;
+    }
+  </style>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="assets/js//jquery-1.12.0.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<!-- <script src="assets/js//bootstrap.min.js"></script> -->
+
+	<script src="assets/js//jquery-ui.js"></script>
+	<script src="assets/js/sigma.core.js"></script>
+	<script src="assets/js/conrad.js"></script>
+	<script src="assets/js/utils/sigma.utils.js"></script>
+	<script src="assets/js/utils/sigma.polyfills.js"></script>
+	<script src="assets/js/sigma.settings.js"></script>
+	<script src="assets/js/classes/sigma.classes.dispatcher.js"></script>
+	<script src="assets/js/classes/sigma.classes.configurable.js"></script>
+	<script src="assets/js/classes/sigma.classes.graph.js"></script>
+	<script src="assets/js/classes/sigma.classes.camera.js"></script>
+	<script src="assets/js/classes/sigma.classes.quad.js"></script>
+	<script src="assets/js/classes/sigma.classes.edgequad.js"></script>
+	<script src="assets/js/captors/sigma.captors.mouse.js"></script>
+	<script src="assets/js/captors/sigma.captors.touch.js"></script>
+	<script src="assets/js/renderers/sigma.renderers.canvas.js"></script>
+	<script src="assets/js/renderers/sigma.renderers.webgl.js"></script>
+	<script src="assets/js/renderers/sigma.renderers.svg.js"></script>
+	<script src="assets/js/renderers/sigma.renderers.def.js"></script>
+	<script src="assets/js/renderers/webgl/sigma.webgl.nodes.def.js"></script>
+	<script src="assets/js/renderers/webgl/sigma.webgl.nodes.fast.js"></script>
+	<script src="assets/js/renderers/webgl/sigma.webgl.edges.def.js"></script>
+	<script src="assets/js/renderers/webgl/sigma.webgl.edges.fast.js"></script>
+	<script src="assets/js/renderers/webgl/sigma.webgl.edges.arrow.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.labels.def.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.hovers.def.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.nodes.def.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edges.def.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edges.curve.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edges.arrow.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edges.curvedArrow.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edgehovers.def.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edgehovers.curve.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edgehovers.arrow.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js"></script>
+	<script src="assets/js/renderers/canvas/sigma.canvas.extremities.def.js"></script>
+	<script src="assets/js/renderers/svg/sigma.svg.utils.js"></script>
+	<script src="assets/js/renderers/svg/sigma.svg.nodes.def.js"></script>
+	<script src="assets/js/renderers/svg/sigma.svg.edges.def.js"></script>
+	<script src="assets/js/renderers/svg/sigma.svg.edges.curve.js"></script>
+	<script src="assets/js/renderers/svg/sigma.svg.labels.def.js"></script>
+	<script src="assets/js/renderers/svg/sigma.svg.hovers.def.js"></script>
+	<script src="assets/js/middlewares/sigma.middlewares.rescale.js"></script>
+	<script src="assets/js/middlewares/sigma.middlewares.copy.js"></script>
+	<script src="assets/js/misc/sigma.misc.animation.js"></script>
+	<script src="assets/js/misc/sigma.misc.bindEvents.js"></script>
+	<script src="assets/js/misc/sigma.misc.bindDOMEvents.js"></script>
+	<script src="assets/js/misc/sigma.misc.drawHovers.js"></script>
+</head>
+<body>
+	<!-- END SIGMA IMPORTS -->
+
+  <div id="graph-container"></div>
+
+<script>
+/**
+ * This is a basic example on how to instantiate sigma. A random graph is
+ * generated and stored in the "graph" variable, and then sigma is instantiated
+ * directly with the graph.
+ *
+ * The simple instance of sigma is enough to make it render the graph on the on
+ * the screen, since the graph is given directly to the constructor.
+ */
+ajaxCall();
+
+function ajaxCall(){
+	$.ajax({
+			url:'http://localhost:8182/layout?layoutSettings='+JSON.stringify({"name":"YifanHuLayout","distance":100,"speed":100,"gravity":100,"iteration":100}),
+		
+
+			beforeSend: function(xhr) { 
+				
+			},
+			type: 'GET',
+			async:false,
+			success: function (data) {
+                drawGraph(JSON.parse(data));
+				
+			},
+			error: function(){
+				console.log('Error:');
+			}
+		});
+}
+// Instantiate sigma:
+function drawGraph(data){
+	console.log(data);
+s = new sigma({
+  graph: data,
+  container: 'graph-container'
+});
+}
+</script>
+
+
+</body> 
+</html>

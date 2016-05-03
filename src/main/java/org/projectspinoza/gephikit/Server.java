@@ -172,11 +172,11 @@ public class Server extends AbstractVerticle {
 					applyBasicConfiguration(basicCofiguration,configurationManager);
 				}
 				basicGraph = getBasicgraph();
-				if (routingContext.request().getParam("filters") != null) {
+				if (routingContext.request().getParam("filterSettings") != null) {
 					HashMap<String, Object> filters = mapper.readValue(routingContext.request().getParam("filterSettings"),new TypeReference<HashMap<String, Object>>() {});
 					applyFilters(filters, basicGraph.graphModel.getGraph());
 				}
-				if (routingContext.request().getParam("layouts") != null) {
+				if (routingContext.request().getParam("layoutSettings") != null) {
 					HashMap<String, Object> layouts = mapper.readValue(routingContext.request().getParam("layoutSettings"),new TypeReference<HashMap<String, Object>>() {});
 					applyLayout(layouts, basicGraph.graphModel);
 				}
