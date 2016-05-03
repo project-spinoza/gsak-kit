@@ -24,7 +24,7 @@ This project provides a plugin for graph analysis and visualization through whic
   * To deploy gsak-kit server, execute the following command inside <code>target</code> directory.<br>
       <code>java -jar gephikit-0.0.1-SNAPSHOT-jar-with-dependencies.jar ../configuration.json</code><br>
   * Open <a href="localhost:8182/">localhost:8182/</a> in any browser; A welcome message will be display.<br>
-  * Click `show Graph` on Welcome page, a sigma graph will be generated from the mentioned file data in <code>configuration.json</code> in the browser response.<br>
+  
   
 # Routes:
   Routes define different graph operations that can be applied to the visulized graph. Standard operations mainly include  graph Layouts, Filtration or combination of both.
