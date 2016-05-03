@@ -20,7 +20,7 @@
     	}
     },
     "datasource":{
-          "filePath":"E:/tweets.txt",
+          "filePath":"tweets.txt",
           "elasticsearchDocument":{
                "host":"localhost",
                "port":9300,
