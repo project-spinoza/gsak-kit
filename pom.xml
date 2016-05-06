@@ -9,7 +9,7 @@
 
 	<name>gephikit</name>
 	<url>http://maven.apache.org</url>
-
+ 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<es.version>0.90.11</es.version>
@@ -25,13 +25,7 @@
 			<version>1.0</version>
 		</dependency>
 
-		<!-- Chinese Whispers Clustering clustering algorithm -->
-		<dependency>
-			<groupId>gephi-cw</groupId>
-			<artifactId>gephi-cw</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-
+		
 		<!-- SigmaExporter dependency -->
 		<dependency>
 			<groupId>uk-ac-ox-oii-sigmaexporter</groupId>
