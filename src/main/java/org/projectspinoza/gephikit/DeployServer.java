@@ -1,4 +1,4 @@
-package org.projectspinoza.gephikit;
+package org.projectspinoza.gephikit; 
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpMethod;
@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.Graph;
@@ -23,17 +24,17 @@ import org.projectspinoza.gephikit.datasource.SigmaGraph;
 import org.projectspinoza.gephikit.filters.FilterImplemintation;
 import org.projectspinoza.gephikit.filters.GraphFilter;
 import org.projectspinoza.gephikit.filters.GraphPreview;
-
-
 import org.projectspinoza.gephikit.layouts.LayoutManager;
 
-
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Server extends AbstractVerticle {
+import de.uni_leipzig.informatik.asv.gephi.chinesewhispers.ChineseWhispersClusterer;
+
+public class DeployServer extends AbstractVerticle {
 	String response;
 	ConfigurationManager configurationManager;
 	ObjectMapper mapper;
@@ -47,9 +48,11 @@ public class Server extends AbstractVerticle {
 	HttpServer server;
 	Router router;
 	GraphPreview graphPreview;
-	private static Logger log = Logger.getLogger(Server.class);
+	private static org.apache.log4j.Logger log = Logger
+			.getLogger(DeployServer.class);
 
-	public Server(String configurationFilePath) {
+	public DeployServer(String configurationFilePath)
+			throws JsonParseException, JsonMappingException, IOException {
 		initialize(configurationFilePath);
 		
 
@@ -57,14 +60,14 @@ public class Server extends AbstractVerticle {
 
 	/**
 	 * Initializing objects
-	 * @throws org.codehaus.jackson.map.JsonMappingException 
-	 * @throws org.codehaus.jackson.JsonParseException 
 	 * 
 	 * @throws IOException
 	 * @throws org.codehaus.jackson.map.JsonMappingException
 	 * @throws org.codehaus.jackson.JsonParseException
 	 */
-	public void initialize(String configurationFilePath){
+	public void initialize(String configurationFilePath)
+			throws org.codehaus.jackson.JsonParseException,
+			org.codehaus.jackson.map.JsonMappingException, IOException {
 		mapper = new ObjectMapper();
 		configurationManager = new ConfigurationManager();
 		configurationManager.setInitialConfiguration(configurationFilePath);
@@ -83,6 +86,8 @@ public class Server extends AbstractVerticle {
 		server = vertx.createHttpServer();
 		router = Router.router(vertx);
 		router.route().handler(CorsHandler.create("*").allowedMethod(HttpMethod.GET)
+						.allowedMethod(HttpMethod.POST)
+						.allowedMethod(HttpMethod.OPTIONS)
 						.allowedHeader("Content-Type, Authorization")
 						);
 		// registering different route handlers
@@ -96,12 +101,6 @@ public class Server extends AbstractVerticle {
 	 * routes for different requests
 	 */
 	private void registerHandlers() {
-		// welcome route with welcome message
-		router.route("/").blockingHandler(routingContext -> {
-			HttpServerResponse response = routingContext.response();
-			response.end("<h1>Welcome to gsak kit</h1>");
-	 });
-		
 		// gephi route to generate simple gephi graph
 		router.route("/gephi").blockingHandler(routingContext -> {
 			String graphJson = "";
@@ -113,7 +112,13 @@ public class Server extends AbstractVerticle {
 				}
 				basicGraph = getBasicgraph();
 				graphJson = getSigmaGraph(basicGraph.getGraphModel().getDirectedGraph());
-			}catch (Exception ex) {
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
+			} catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
 			}
@@ -134,7 +139,13 @@ public class Server extends AbstractVerticle {
 				basicGraph = getBasicgraph();
 				applyLayout(settings, basicGraph.graphModel);
 				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
-			}catch (Exception ex) {
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
+			} catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
 			}
@@ -154,7 +165,14 @@ public class Server extends AbstractVerticle {
 				basicGraph = getBasicgraph();
 				applyFilters(settings, basicGraph.graphModel.getGraph());
 				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
-			}catch (Exception ex) {
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
+
+			} catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
 			}
@@ -182,6 +200,12 @@ public class Server extends AbstractVerticle {
 				}
 										
 				graphJson = getSigmaGraph(basicGraph.graphModel.getDirectedGraph());
+			} catch (NoNodeAvailableException e) {
+				log.error("ElasticSearch Connectivity Error ");
+				graphJson = "{error : ElasticSearch Connectivity Error }";
+			} catch (IOException ioException) {
+				log.error("Exception Reading Text File");
+				graphJson = "{error : Exception Reading Text File}";
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				graphJson = "{error:" + ex.getMessage() + "}";
@@ -203,19 +227,15 @@ public class Server extends AbstractVerticle {
 		if (basicSettings.get("selectedDataSource") != null) {
 			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
 		}
+		if (basicSettings.get("searchValue") != null) {
+            configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setSearchValue(basicSettings.get("searchValue").toString());
+        }
+		if (basicSettings.get("documentLimit") != null) {
+            configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setDocumentsLimit(Integer.parseInt(basicSettings.get("documentLimit").toString()));
+        }
 		if (basicSettings.get("selectedDataSource") != null&& basicSettings.get("selectedDataSource").equals("file")) {
 			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
 			configurationManager.getConfiguration().getDatasource().setFilePath(basicSettings.get("filePath").toString());
-		}
-		if (basicSettings.get("selectedDataSource") != null&& basicSettings.get("selectedDataSource").equals("elasticsearch")) {
-			configurationManager.getConfiguration().setSelectedDataSource(basicSettings.get("selectedDataSource").toString());
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setSearchValue(basicSettings.get("searchValue").toString().trim());
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setHost(basicSettings.get("host").toString().trim());
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setPort(Integer.parseInt(basicSettings.get("port").toString().trim()));
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setClusterName(basicSettings.get("clusterName").toString().trim());
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setIndex(basicSettings.get("index").toString().trim());
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setType(basicSettings.get("type").toString().trim());
-			configurationManager.getConfiguration().getDatasource().getElasticsearchDocument().setDocumentsLimit(Integer.parseInt(basicSettings.get("documentsLimit").toString().trim()));
 		}
 		if (basicSettings.get("selectedLayout") != null) {
 			configurationManager.getConfiguration().setSelectedLayout(basicSettings.get("selectedLayout").toString());
@@ -231,7 +251,10 @@ public class Server extends AbstractVerticle {
 	 * @throws Exception
 	 */
 	public void applyLayout(Map<String, Object> settings, GraphModel graphModel) throws Exception {
+	    ChineseWhispersClusterer cwc = new ChineseWhispersClusterer();
+        cwc.execute(graphModel);
 		configurationManager.getConfiguration().setSelectedLayout(settings.get("name").toString().trim());
+		
 		if (settings.get("name").toString().trim().equals("YifanHuLayout")) {
 			configurationManager.getConfiguration().getLayout().getYiFanHuLayout().setDistance((int) settings.get("distance"));
 			configurationManager.getConfiguration().getLayout().getYiFanHuLayout().setIteration((int) settings.get("iteration"));
@@ -250,6 +273,11 @@ public class Server extends AbstractVerticle {
 				configurationManager.getConfiguration());
 
 	}
+	
+	public void chineseWhispersClusterer(GraphModel graphModel){
+        ChineseWhispersClusterer cwc = new ChineseWhispersClusterer();
+        cwc.execute(graphModel);
+    }
 	/**
 	 * This method is use to apply filters
 	 * @param settings
@@ -266,7 +294,7 @@ public class Server extends AbstractVerticle {
 		if(settings.containsKey("neighborRangeThreashhold")){
 			filterImplementation.applyNeighborcountThreshHold(graph, attributeModel, graphFilter, Double.parseDouble(settings.get("neighborRangeThreashhold").toString()), "NeighborCount");
 		}
-		graphPreview.rankingColorByDegree(rankingController);
+		// graphPreview.rankingColorByDegree(rankingController);
 		
 	}
 
