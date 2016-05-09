@@ -1,23 +1,23 @@
 {
     "port":8182,
     "host":"localhost",
-    "selectedDataSource":"file",
+    "selectedDataSource":"elasticsearch",
   
     "selectedLayout":"YifanHuLayout",
     "layout":{
-    	"yiFanHuLayout":{
-    		"name" : "YifanHuLayout",
-    		"iteration": 5,
-    		"distance":5
+        "yiFanHuLayout":{
+            "name" : "YifanHuLayout",
+            "iteration": 5,
+            "distance":5
 
-    	},
-    	"fruchtermanReingold":{
-    	  "name":"FruchtermanReingold",
-    	  "area":1.5,
-    	  "speed":100,
-    	  "gravity":100,
-    	  "iteration":100
-    	}
+        },
+        "fruchtermanReingold":{
+          "name":"FruchtermanReingold",
+          "area":1.5,
+          "speed":100,
+          "gravity":100,
+          "iteration":100
+        }
     },
     "datasource":{
           "filePath":"tweets.txt",
@@ -27,9 +27,9 @@
                "clusterName":"elasticsearch",
                "index":"xsbir_v2",
                "type":"xsbir_v2_type",
-               "searchFields":["program"],
-               "searchValue":"SBIR",
-               "returnFields":["keywords", "mainCategoryTitle", "titleSort"],
+               "searchFields":["description"],
+               "searchValue":"We",
+               "returnFields":["keywords", "firmName", "phase","porposaltitle","source","topic_number","type","unique_id","year"],
                "documentsLimit":100
           },
           "elasticsearchDataLoad":{
