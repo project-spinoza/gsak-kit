@@ -30,7 +30,7 @@ This project provides a plugin for graph analysis and visualization through whic
 # Routes:
   Routes define different graph operations that can be applied to the visulized graph. Standard operations mainly include  graph Layouts, Filtration or combination of both.
 #### Welcome Route
- * *__Route__*: <code>/</code> <br><br>
+ * *__Route__*: <code>/</code> It will display welcome message <br><br>
 
 #### Basic Graph
   * *__Route__*: <code>/gephi</code> <br>
@@ -39,6 +39,7 @@ This project provides a plugin for graph analysis and visualization through whic
 
 * *__Text File Params Options:__* <code>basicSettings={"selectedDataSource":"file","filePath":"path_to_the_tweets_file"}</code> <br>
   * *__e.g. File as Data source:__*: <code>localhost:8182/gephi?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt", "searchValue":"justin bieber"} </code> <br>
+  
 #### Layouts
   * *__Route__*: <code>/layout</code> <br>
   * *__Layout name:__* <code>"name"=YifanHuLayout</code> <br>
