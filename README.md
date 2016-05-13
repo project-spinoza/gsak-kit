@@ -30,7 +30,8 @@ This project provides a plugin for graph analysis and visualization through whic
 # Routes:
   Routes define different graph operations that can be applied to the visulized graph. Standard operations mainly include  graph Layouts, Filtration or combination of both.
 #### Welcome Route
- * *__Route__*: <code>/</code> <br>
+ * *__Route__*: <code>/</code> <br><br>
+
 #### Basic Graph
   * *__Route__*: <code>/gephi</code> <br>
   * *__Parameter(optional and Data Source Specific):__*
