@@ -57,7 +57,7 @@ public class SigmaGraph implements TwitterGraph {
 
 	private void createNodes(Graph graph, Configuration conf) {
 		
-	    String nodeSizeBy = "last option";
+	    String nodeSizeBy = "pr";
 		Node[] nodeArray = graph.getNodes().toArray();
 		
 		for (int i = 0; i < nodeArray.length; i++) {
