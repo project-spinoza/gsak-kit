@@ -1,6 +1,7 @@
 package org.projectspinoza.gephikit.datasource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,28 +11,31 @@ import org.gephi.io.importer.api.EdgeDraft;
 import org.gephi.io.importer.api.EdgeDraft.EdgeType;
 import org.gephi.io.importer.api.NodeDraft;
 import org.gephi.io.importer.impl.ImportContainerImpl;
+import org.projectspinoza.gephikit.configuration.Configuration;
 
 public class ElasticSearchDataLoader implements DataLoader {
 	public List<Map<String, Object>> lines;
 	ImportContainerImpl container;
 	List<String[]> edges;
 	List<Map<String, Object>> fields;
+	Configuration conf;
 
 	public ElasticSearchDataLoader() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public ElasticSearchDataLoader(List<Map<String, Object>> documents,
-			List<Map<String, Object>> attributes) {
+			List<Map<String, Object>> attributes, Configuration conf) {
 	
-		initialize();
+		initialize(conf);
 		startProcess(documents, attributes);
 	}
 
-	public void initialize() {
+	public void initialize(Configuration conf) {
 		container = new ImportContainerImpl();
 		edges = new ArrayList<String[]>();
 		lines = new ArrayList<Map<String, Object>>();
+		this.conf = conf;
 	}
 
 	public void startProcess(List<Map<String, Object>> documents,
@@ -62,8 +66,13 @@ public class ElasticSearchDataLoader implements DataLoader {
 	public Container load() {
 		for (Map<String, Object> line : lines) {
 			String[] splitTags = line.get("text").toString().trim().split(line.get("splitBy").toString());
-			List<String[]> edges = buildEdges(splitTags);
-			addToContainer(edges);
+			if(splitTags!=null){
+			    if(splitTags.length > conf.getTagLimit()){
+			        splitTags =   Arrays.copyOfRange(splitTags, 0, conf.getTagLimit());  
+			    }
+    			List<String[]> edges = buildEdges(splitTags);
+    			addToContainer(edges);
+    		}
 		}
 
 		return container;
@@ -106,9 +115,9 @@ public class ElasticSearchDataLoader implements DataLoader {
 	private List<String[]> buildEdges(String[] splitTags) {
 		List<String[]> edges = new ArrayList<String[]>();
 		List<String> taglist = new ArrayList<String>();
-
+     
 		for (String splittag : splitTags) {
-			if (splittag.trim().isEmpty() || splittag.length() > 30)
+			if (splittag.trim().isEmpty() || splittag.length() > 25)
 				continue;
 			taglist.add(splittag);
 		}

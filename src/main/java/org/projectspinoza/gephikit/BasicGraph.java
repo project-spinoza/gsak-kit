@@ -1,20 +1,26 @@
 package org.projectspinoza.gephikit;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.io.importer.api.Container;
 import org.gephi.io.importer.api.ImportController;
 import org.gephi.io.processor.plugin.DefaultProcessor;
+import org.gephi.preview.api.PreviewController;
+import org.gephi.preview.api.PreviewModel;
 import org.gephi.project.api.ProjectController;
 import org.gephi.project.api.Workspace;
+import org.gephi.ranking.api.RankingController;
 import org.openide.util.Lookup;
 import org.projectspinoza.gephikit.configuration.Configuration;
 import org.projectspinoza.gephikit.datasource.DataLoader;
 import org.projectspinoza.gephikit.datasource.ElasticSearchDataLoader;
 import org.projectspinoza.gephikit.datasource.ElasticSearchDocuments;
 import org.projectspinoza.gephikit.datasource.FileLoader;
+import org.projectspinoza.gephikit.filters.GraphPreview;
 
 public class BasicGraph {
 	ProjectController pc;
@@ -25,7 +31,10 @@ public class BasicGraph {
 	private Container container;
 	private Workspace workspace;
 	private ImportController importController;
-
+	PreviewModel previewModel;
+	GraphPreview graphPreview;
+	RankingController rankingController;
+	Configuration conf;
 	public BasicGraph(Configuration config) throws Exception {
 		initialize(config);
 		processDataSource();
@@ -42,6 +51,11 @@ public class BasicGraph {
 				.getModel();
 		workspace = pc.getCurrentWorkspace();
 		importController = Lookup.getDefault().lookup(ImportController.class);
+		previewModel = Lookup.getDefault().lookup(PreviewController.class)
+                .getModel();
+		graphPreview = new GraphPreview(); 
+		rankingController = Lookup.getDefault().lookup(RankingController.class);
+		conf = config;
 	}
 	
     /**
@@ -67,14 +81,15 @@ public class BasicGraph {
 			int documentsLimit = configuration.getDatasource().getElasticsearchDocument().getDocumentsLimit();
 			
 			ElasticSearchDocuments esd = new ElasticSearchDocuments(host, port, clusterName, index, type, searchFields, searchValue, returnFields, documentsLimit);
-			
-			dataloader = new ElasticSearchDataLoader(esd.getDocuments(), configuration.getDatasource().getElasticsearchDataLoad().getFields());
+			dataloader = new ElasticSearchDataLoader(esd.getDocuments(), configuration.getDatasource().getElasticsearchDataLoad().getFields(), conf);
 			container = dataloader.load();
 			
 		}
 		importController.process(container, new DefaultProcessor(), workspace);
-
+	   
+         
 	}
+
 	public GraphModel getGraphModel() {
 		return graphModel;
 	}

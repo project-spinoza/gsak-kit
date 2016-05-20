@@ -12,7 +12,8 @@ public class Configuration {
 	Layout layout;
 	DataSource datasource;
 	String selectedLayout;
-	
+	int tagLimit;
+	String nodeSizeBy;
 	public int getPort() {
 		return port;
 	}
@@ -60,6 +61,22 @@ public class Configuration {
 	public void setDatasource(DataSource datasource) {
 		this.datasource = datasource;
 	}
+
+    public int getTagLimit() {
+        return tagLimit;
+    }
+
+    public void setTagLimit(int tagLimit) {
+        this.tagLimit = tagLimit;
+    }
+
+    public String getNodeSizeBy() {
+        return nodeSizeBy;
+    }
+
+    public void setNodeSizeBy(String nodeSizeBy) {
+        this.nodeSizeBy = nodeSizeBy;
+    }
 	
 	
 }

@@ -1,8 +1,9 @@
 {
-    "port":8182,
+    "port":8282,
     "host":"localhost",
     "selectedDataSource":"elasticsearch",
-  
+    "tagLimit":12,
+    "nodeSizeBy":"pr",
     "selectedLayout":"YifanHuLayout",
     "layout":{
         "yiFanHuLayout":{
@@ -20,16 +21,16 @@
         }
     },
     "datasource":{
-          "filePath":"tweets.txt",
+          "filePath":"E:/workspace/eclipse/gsak-kit/tweets.txt",
           "elasticsearchDocument":{
                "host":"localhost",
                "port":9300,
                "clusterName":"elasticsearch",
                "index":"xsbir_v2",
                "type":"xsbir_v2_type",
-               "searchFields":["description"],
+               "searchFields":["description","porposaltitle"],
                "searchValue":"We",
-               "returnFields":["keywords", "firmName", "phase","porposaltitle","source","topic_number","type","unique_id","year"],
+               "returnFields":["description","keywords", "firmName", "phase","porposaltitle","source","topic_number","type","unique_id","year"],
                "documentsLimit":100
           },
           "elasticsearchDataLoad":{

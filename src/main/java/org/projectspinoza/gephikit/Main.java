@@ -18,5 +18,6 @@ public class Main {
     	}
     	 Vertx vertx = Vertx.vertx();
     	 vertx.deployVerticle(new DeployServer(args[0]));
+  
     }
 }
