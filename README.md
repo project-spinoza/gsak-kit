@@ -38,7 +38,7 @@ This project provides a plugin for graph analysis and visualization through whic
   * *__Elasticsearch Params Options:__* <code>basicSettings={"selectedDataSource":"elasticsearch","searchValue":"KEYWORDS'","host":"localhost","port":"9300","clusterName":"elasticsearch","index":"indexName","type":"indexTypeName","documentsLimit":"1000"}</code> <br>
 
 * *__Text File Params Options:__* <code>basicSettings={"selectedDataSource":"file","filePath":"path_to_the_tweets_file"}</code> <br>
-  * *__e.g. File as Data source:__*: <code>localhost:8182/gephi?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt", "searchValue":"justin bieber"} </code> <br>
+  * *__e.g. File as Data source:__*: <code>localhost:8182/gephi?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt"} </code> <br>
   
 #### Layouts
   * *__Route__*: <code>/layout</code> <br>
