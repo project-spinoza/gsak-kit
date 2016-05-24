@@ -80,7 +80,7 @@ ajaxCall();
 
 function ajaxCall(){
 	$.ajax({
-			url:'http://localhost:8182/layout?layoutSettings='+JSON.stringify({"name":"YifanHuLayout","distance":100,"speed":100,"gravity":100,"iteration":100}),
+			url:'http://localhost:8182/gsakkit?layoutSettings='+JSON.stringify({"name":"YifanHuLayout","distance":100,"iteration":100})+'basicSettingsSettings='+JSON.stringify({"selectedDataSource":"file"}),
 		
 
 			beforeSend: function(xhr) { 
