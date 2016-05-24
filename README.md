@@ -50,7 +50,15 @@ This project provides a plugin for graph analysis and visualization through whic
 #### Filters
   * *__Route__*: <code>/filter</code> <br>
   * *__Possible Filter Options:__* <code>pageRankThreashhold, nodeCentrailityThreashhold, neighborRangeThreashhold</code> <br>
-  * *__e.g. YifanHuLayout__*: <code>localhost:8182/filter?filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}</code> <br>
+  * *__e.g. YifanHuLayout__*: <code>localhost:8182/filter?filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}</code> <br> <br>
+   
+#### KIT-Route
+  * *__Route__*: <code>/gsakkit</code> <br>
+  * *__Possible Filter Options:__* <code>pageRankThreashhold, nodeCentrailityThreashhold, neighborRangeThreashhold</code> <br>
+  * *__Description__*: This route bascially combines all three major functionalities of GSAK-KIT; i.e. Source selection, Layouts, and graph Filteration.<br>
+  * *__e.g. Example__*: <code>localhost:8182/gsakkit?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt"}&filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}&layoutSettings={"name":"FruchtermanReingold","size":10, "iterations":100, "gravity":0.1}</code> <br> <br>
+   
+  
 GSAK-KIT is divided into two sections.
 #### The server side 
   * **input** <br>Text data or the built-in graph<br>
