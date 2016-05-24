@@ -47,7 +47,10 @@ This project provides a plugin for graph analysis and visualization through whic
   * *__e.g. FruchtermanReingold__*: <code>localhost:8182/layout?layoutSettings={"name":"FruchtermanReingold","size":10, "iterations":100, "gravity":0.1}</code> <br>
   * __Possible Layouts__: <code>YifanHuLayout, FruchtermanReingold</code>
 
-
+#### Layouts
+  * *__Route__*: <code>/filter</code> <br>
+  * *__Possible Filter Options:__* <code>pageRankThreashhold, nodeCentrailityThreashhold, neighborRangeThreashhold</code> <br>
+  * *__e.g. YifanHuLayout__*: <code>localhost:8182/filter?filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}</code> <br>
 GSAK-KIT is divided into two sections.
 #### The server side 
   * **input** <br>Text data or the built-in graph<br>
