@@ -24,7 +24,7 @@ This project provides a plugin for graph analysis and visualization through whic
   * The <code>target</code> directory should contain a jar file with possible name <code>gsak-kit-with-dependencies.jar</code>.<br>
   * To deploy gsak-kit server, execute the following command inside <code>target</code> directory.<br>
       <code>java -jar gephikit-0.0.1-SNAPSHOT-jar-with-dependencies.jar ../configuration.json</code><br>
-  * Open <a href="localhost:8182/">localhost:8182/</a> in any browser; A welcome message will be display.<br>
+  * Open <a href="localhost:8282/">localhost:8282/</a> in any browser; A welcome message will be display.<br>
   
   
 # Routes:
@@ -38,25 +38,25 @@ This project provides a plugin for graph analysis and visualization through whic
   * *__Elasticsearch Params Options:__* <code>basicSettings={"selectedDataSource":"elasticsearch","searchValue":"KEYWORDS'","host":"localhost","port":"9300","clusterName":"elasticsearch","index":"indexName","type":"indexTypeName","documentsLimit":"1000"}</code> <br>
 
 * *__Text File Params Options:__* <code>basicSettings={"selectedDataSource":"file","filePath":"path_to_the_tweets_file"}</code> <br>
-  * *__e.g. File as Data source:__*: <code>localhost:8182/gephi?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt"} </code> <br>
+  * *__e.g. File as Data source:__*: <code>localhost:8282/gephi?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt"} </code> <br>
   
 #### Layouts
   * *__Route__*: <code>/layout</code> <br>
   * *__Layout name:__* <code>"name"=YifanHuLayout</code> <br>
-  * *__e.g. YifanHuLayout__*: <code>localhost:8182/layout?layoutSettings={"name":"YifanHuLayout","distance":100, "iterations":100}</code> <br>
-  * *__e.g. FruchtermanReingold__*: <code>localhost:8182/layout?layoutSettings={"name":"FruchtermanReingold","size":10, "iterations":100, "gravity":0.1}</code> <br>
+  * *__e.g. YifanHuLayout__*: <code>localhost:8282/layout?layoutSettings={"name":"YifanHuLayout","distance":100, "iterations":100}</code> <br>
+  * *__e.g. FruchtermanReingold__*: <code>localhost:8282/layout?layoutSettings={"name":"FruchtermanReingold","size":10, "iterations":100, "gravity":0.1}</code> <br>
   * __Possible Layouts__: <code>YifanHuLayout, FruchtermanReingold</code>
 
 #### Filters
   * *__Route__*: <code>/filter</code> <br>
   * *__Possible Filter Options:__* <code>pageRankThreashhold, nodeCentrailityThreashhold, neighborRangeThreashhold</code> <br>
-  * *__e.g. YifanHuLayout__*: <code>localhost:8182/filter?filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}</code> <br> <br>
+  * *__e.g. YifanHuLayout__*: <code>localhost:8282/filter?filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}</code> <br> <br>
    
 #### KIT-Route
   * *__Route__*: <code>/gsakkit</code> <br>
   * *__Possible Filter Options:__* <code>pageRankThreashhold, nodeCentrailityThreashhold, neighborRangeThreashhold</code> <br>
   * *__Description__*: This route bascially combines all three major functionalities of GSAK-KIT; i.e. Source selection, Layouts, and graph Filteration.<br>
-  * *__e.g. Example__*: <code>localhost:8182/gsakkit?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt"}&filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}&layoutSettings={"name":"FruchtermanReingold","size":10, "iterations":100, "gravity":0.1}</code> <br> <br>
+  * *__e.g. Example__*: <code>localhost:8282/gsakkit?basicSettings={"selectedDataSource":"file", "filePath":"/etc/tweets.txt"}&filterSettings={"pageRankThreashhold":10,"nodeCentrailityThreashhold":10, "neighborRangeThreashhold":10}&layoutSettings={"name":"FruchtermanReingold","size":10, "iterations":100, "gravity":0.1}</code> <br> <br>
    
   
 GSAK-KIT is divided into two sections.
